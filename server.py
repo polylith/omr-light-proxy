@@ -20,7 +20,7 @@ def light():
             print(state)
             # s.send(state)
 
-        return jsonify({"uuid":uuid})
+        return jsonify({"state":state})
 
 
 if __name__ == '__main__':
