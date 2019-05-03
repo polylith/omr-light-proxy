@@ -8,7 +8,7 @@ CORS(app)
 
 SOCKET_ENABLED = os.getenv('SOCKET_ENABLED', "True") == "True" 
 SOCKET_IP = os.getenv('SOCKET_IP', '192.168.10.10')
-SOCKET_PORT = os.getenv('SOCKET_PORT', 5000)
+SOCKET_PORT = int(os.getenv('SOCKET_PORT', 5000))
 
 def send_message(message):
     if not SOCKET_ENABLED:
