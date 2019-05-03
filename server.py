@@ -10,10 +10,14 @@ TCP_IP = os.getenv('TCP_IP', '192.168.10.10')
 TCP_PORT = os.getenv('TCP_PORT', 5000)
 
 def send_message(message):
+    app.logger.info('Try to connect to %s:%s', TCP_IP, TCP_PORT)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((TCP_IP, TCP_PORT))
+    app.logger.info('Connected to %s:%d', TCP_IP, TCP_PORT)
     s.send(message.encode())
+    app.logger.info('Send message %s', message)
     s.close()
+    app.logger.info('Closed connection')
 
 @app.route('/light', methods=['POST'])
 def light():
