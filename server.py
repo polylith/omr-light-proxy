@@ -6,14 +6,19 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-TCP_IP = os.getenv('TCP_IP', '192.168.10.10')
-TCP_PORT = os.getenv('TCP_PORT', 5000)
+SOCKET_ENABLED = os.getenv('SOCKET_ENABLED', "True") == "True" 
+SOCKET_IP = os.getenv('SOCKET_IP', '192.168.10.10')
+SOCKET_PORT = os.getenv('SOCKET_PORT', 5000)
 
 def send_message(message):
-    app.logger.info('Try to connect to %s:%s', TCP_IP, TCP_PORT)
+    if not SOCKET_ENABLED:
+        app.logger.info('Socket disabled, but would have send message: %s', message)
+        return
+
+    app.logger.info('Try to connect to %s:%s', SOCKET_IP, SOCKET_PORT)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((TCP_IP, TCP_PORT))
-    app.logger.info('Connected to %s:%d', TCP_IP, TCP_PORT)
+    s.connect((SOCKET_IP, SOCKET_PORT))
+    app.logger.info('Connected.')
     s.send(message.encode())
     app.logger.info('Send message %s', message)
     s.close()
