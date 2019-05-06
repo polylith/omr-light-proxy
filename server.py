@@ -24,16 +24,13 @@ def send_message(message):
     s.close()
     app.logger.info('Closed connection')
 
-@app.route('/light', methods=['POST'])
-def light():
-    if request.method == 'POST':
-        data = request.json
+@app.route('/light/<message>', methods=['GET'])
+def light(message):
+    if request.method == 'GET':
+        if message:
+            send_message(message)
 
-        state = data.get('state')
-        if state:
-            send_message(state)
-
-        return jsonify({"state":state})
+        return jsonify({"message":message})
 
 
 if __name__ == '__main__':
